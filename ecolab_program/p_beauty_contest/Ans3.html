@@ -1,0 +1,26 @@
+{{ block title }}
+    p-beauty contest –– 理解測驗
+{{ endblock }}
+
+{{ block content }}
+    <p>
+        (3) 若某回合有兩位玩家同時獲勝，請問他們各自可以得到新台幣多少錢的報酬？<br>
+    </p>
+    <p>
+        {{ if player.test3 == C.ans3 }}
+            恭喜您答對了。<br>
+        {{ endif }}
+        本題正確答案為60。<br>
+        每回合的贏家，可獲得報酬 120 元新台幣(超過一位玩家獲勝時，則均分報酬)，其餘玩家可獲得報酬 10 元新台幣。 <br>
+        因為有兩位贏家，所以他們將各自獲得60元的報酬。
+    </p>
+    {{ next_button }}
+    <style>
+    .otree-timer {
+        display: none;
+    }
+    .debug-info {
+            display: none;
+    </style>
+
+{{ endblock }}

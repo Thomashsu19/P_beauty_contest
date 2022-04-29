@@ -1,0 +1,60 @@
+{{ block title }}
+    p-beauty contest –– 理解測驗
+{{ endblock }}
+
+{{ block content }}
+<style>
+    .time-is-up-area {
+            color: red;
+            display: none;
+        }
+    .otree-timer {
+        display: none;
+    }
+    .debug-info {
+            display: none;
+    </style>
+
+
+    <p>
+        (3) 若某回合有兩位玩家同時獲勝，請問他們各自可以得到新台幣多少錢的報酬？
+    </p>
+
+    <div class="time-is-up-area">
+        「請儘速作答！」
+    </div>
+
+    <p>
+        {{ formfields }}
+    </p>
+    {{ next_button }}
+    
+    <script>
+        var start_time = Date.now() // 回傳自 1970/01/01 00:00:00 UTC 起經過的毫秒數。
+
+        setInterval(
+            function() {
+                // 當下時間減掉起算時間（start_time），即為經過時長
+                var duration = (Date.now() - start_time) / 1000 // 因原數字為毫秒，需除以 1000 取得秒數。
+
+                // 每秒不斷更新 decision_duration
+                $('#id_decision_duration').val(duration.toFixed(1)) 
+                // JavaScript toFixed() Method: Convert a number into a string, keeping only N decimals
+
+                var timeout_sec = {{ C.timeout_sec }}
+                var duration_integer = Math.ceil(duration)
+
+                // 倒數到指定秒數
+                if ((timeout_sec - duration_integer) === {{ C.timer_sec }}) {
+                    $('.otree-timer').show();
+                }               
+
+                // 計算延遲幾秒後催促
+                if ((timeout_sec - duration_integer) === {{ C.alert_sec }}) {
+                    $('.time-is-up-area').show();
+                }
+            },
+            0.1 * 1000 // 每 0.1秒呼叫一次function，所以如需更精確或更粗略，可調整成 0.01 * 1000 或 1 * 1000。（同時注意toFixed()）
+            )
+    </script>
+{{ endblock }}

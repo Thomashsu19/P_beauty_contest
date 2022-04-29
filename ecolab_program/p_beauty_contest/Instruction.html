@@ -1,0 +1,63 @@
+{{ block title }}
+    p-beauty contest –– 說明
+{{ endblock }}
+
+{{ block content }}
+    <p>
+        歡迎，感謝您參與今日的實驗！
+    </p>
+    <p>
+        待會您將與另外 {{ num_player_1 }} 位玩家，玩「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」的遊戲。
+    </p>
+    <p>
+        本遊戲共有 {{ C.NUM_ROUNDS }} 回合。</p>
+    
+    <p>
+        每一回合中，所有玩家皆需要從最小為 0，最大為 100 的區間裡，挑選一個整數。<br>
+        
+        待所有玩家輸入完畢後，系統將公布「所有玩家的平均數」、「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」(即所有玩家選擇整數的平均數的
+        <sup>2</sup>&frasl;<sub>3</sub> 倍。)、「獲勝玩家選擇的數字」。
+
+        {{ if group.is_treatment }}
+            、以及「該場次的其他玩家所選擇的數字」
+        {{ else }}
+            。
+        {{ endif }}
+        
+    </p>
+
+    <p>
+        若您挑選的整數，在所有玩家中最接近「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」，您就是該回合的贏家，將可獲得報酬 {{ C.winning_prize }} 元新台幣。<br>
+        若不是，可獲得報酬 {{ C.consolation_prize}} 元新台幣。<br>
+        惟須注意，當最接近「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」的玩家有兩位以上時，該回合的所有贏家將均分報酬 {{ C.winning_prize }} 元新台幣。<br>
+        {{ C.NUM_ROUNDS }} 回合結束後，將於結算頁面顯示您參與本次遊戲獲得的報酬總額（不含車馬費 100 元新台幣）。
+    </p>
+
+    <p>
+        例如：<br>
+        以下是您與其他 2 名玩家在某一回合中選擇的數字。<br>
+        您選擇的數字：56<br>
+        其他 2 名玩家選擇的數字：7  99<br>
+        在這個回合當中，平均數為 54，<sup>2</sup>&frasl;<sub>3</sub> 倍的平均數等於 36 。<br>
+        由於 56 最接近獲勝數字 36，您是本回合的贏家，可獲得報酬 {{ C.winning_prize }} 元新台幣。<br>
+        其他選擇 7 與 99 的玩家，可獲得報酬 {{ C.consolation_prize }} 元新台幣。<br>
+    </p>
+
+    <p>
+        每一回合的決策時間是 {{ C.timeout_sec }} 秒。<br>
+        倒數 {{ C.timer_sec }} 秒時，畫面會顯示倒數計時器。<br>
+        倒數 {{ C.alert_sec }} 秒時，畫面會出現「請您儘速作答」字樣提醒您作答。<br>
+        若您未在限制時間內做出決策，該回合僅能獲得報酬 {{ C.noplaying_prize }} 元新台幣。<br>
+    </p>
+
+    {{ next_button }}
+
+    <style>
+        .debug-info {
+            display: none;
+        }
+    </style>
+
+{{ endblock }}
+
+

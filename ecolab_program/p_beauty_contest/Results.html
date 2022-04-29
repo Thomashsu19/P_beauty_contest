@@ -1,0 +1,134 @@
+{{ block title }}
+    p-beauty contest –– 結果
+{{ endblock }}
+
+{{ block content }}
+    
+    <style>
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
+        .debug-info {
+            display: none;
+        }
+        .otree-timer {
+            display: none;
+        }
+        .hidden-area {
+            display: none;
+        }
+    </style>
+
+    
+
+    <p>
+        Round: {{ player.round_number }}
+    </p>
+
+    <p>
+        {{ if player.is_no_decision }}
+            您未在時限內作答！
+        {{ else }}
+            您的數字為 {{ player.guess_num }}。
+        {{ endif }}
+    </p>
+
+    <p>
+        {{ if player.is_big_group }} <!-- 大組若有人作答，大組給予大組的贏家數字 -->
+            {{ if group.p_mean_num_big >= 0}}
+                {{ group.winner_number_big }}
+            {{ else }}
+            本回合無人作答。
+            {{ endif }}
+
+        {{ else }}
+            {{ if group.p_mean_num_small >= 0}} <!-- 小組若有人作答，小組給予小組的贏家數字 -->
+                {{ group.winner_number_small }}
+            {{ else }}
+            本回合無人作答。
+            {{ endif }}
+        {{ endif }}
+    </p>
+
+    <p>
+        {{ if group.is_treatment }}  <!-- 實驗組給予作答數字 -->
+            {{ if player.is_big_group }} <!-- 實驗組大組給予大組作答數字 -->
+                {{ if group.p_mean_num_big != -100 }}
+                    {{ group.num_list_big }}<br>
+                {{ endif }}
+            {{ else }}
+                {{ if group.p_mean_num_small != -100}}
+                    {{ group.num_list_small }}<br> <!-- 實驗組小組給予小組作答數字 -->
+                {{ endif }}
+            {{ endif }}
+        {{ endif }}
+    </p>
+
+    <p><!-- 給予p-mean以及mean -->
+        {{ if player.is_big_group }} 
+            {{ if group.p_mean_num_big != -100 }}
+                本回合的平均數為{{ group.mean_num_big }}<br>
+                本回合<sup>2</sup>&frasl;<sub>3</sub> 倍的平均數{{ group.p_mean_num_big }}<br>
+            {{ endif }}
+        {{ else }}
+            {{ if group.p_mean_num_small != -100}}
+                本回合的平均數為{{ group.mean_num_small }}<br>
+                本回合<sup>2</sup>&frasl;<sub>3</sub> 倍的平均數{{ group.p_mean_num_small }}<br>
+            {{ endif }}
+        {{ endif }}
+    </p>
+
+    {{ if player.is_winner }}
+        <p class="highlight">
+            恭喜您是贏家！
+        </p>
+    {{ else }}
+        <p>
+            很抱歉，您未能獲勝。
+        </p>
+    {{ endif }}
+
+    <p>
+        您在本回合的報酬為 <span class="highlight"> {{ player.payoff }} </span>。
+    </p>
+
+    {{ next_button }}
+
+    <div class='hidden-area'>
+        {{ formfield player.result_duration }}
+    </div>
+    
+    <style>
+        .debug-info {
+            display: none;
+        }
+    </style>
+
+    <script>
+        var start_time = Date.now() // 回傳自 1970/01/01 00:00:00 UTC 起經過的毫秒數。
+
+        setInterval(
+            function() {
+                // 當下時間減掉起算時間（start_time），即為經過時長
+                var duration = (Date.now() - start_time) / 1000 // 因原數字為毫秒，需除以 1000 取得秒數。
+
+                // 每秒不斷更新 decision_duration
+                $('#id_result_duration').val(duration.toFixed(1)) 
+                // JavaScript toFixed() Method: Convert a number into a string, keeping only N decimals
+
+                var timeout_sec = {{ C.timeout_sec }}
+                var duration_integer = Math.ceil(duration)
+
+                // 倒數到指定秒數
+                if ((timeout_sec - duration_integer) === {{ C.timer_sec }}) {
+                    $('.otree-timer').show();
+                }               
+            },
+            0.1 * 1000 // 每 0.1秒呼叫一次function，所以如需更精確或更粗略，可調整成 0.01 * 1000 或 1 * 1000。（同時注意toFixed()）
+            )
+    </script>
+
+{{ endblock }}
+
+

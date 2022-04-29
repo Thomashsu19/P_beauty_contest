@@ -1,0 +1,34 @@
+{{ block title }}
+    p-beauty contest –– 理解測驗
+{{ endblock }}
+
+{{ block content }}
+<p>
+    以下是您與其他 5 名玩家在某一回合中選擇的數字。<br>
+    您選擇的數字：41<br>
+    其他 5 名玩家選擇的數字：5  22  30  63  91<br>
+    在這個回合當中，平均數為 42，<sup>2</sup>&frasl;<sub>3</sub> 倍的平均數等於 28。
+</p>
+
+<p>
+    (2) 承上題，請問您在本回合可以得到新台幣多少錢的報酬？<br>
+</p>
+
+<p>
+    {{ if player.test2 == C.ans2 }}
+        恭喜您答對了。<br>
+    {{ endif }}
+    本題正確答案為10。<br>
+    因為每回合的贏家，可獲得報酬 120 元新台幣(超過一位玩家獲勝時，則均分報酬)，其餘玩家可獲得報酬 10 元新台幣。
+</p>
+    {{ next_button }}
+    <style>
+    
+    .otree-timer {
+        display: none;
+    }
+    .debug-info {
+            display: none;
+    </style>
+
+{{ endblock }}

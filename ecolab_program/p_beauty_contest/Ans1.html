@@ -1,0 +1,34 @@
+{{ block title }}
+    p-beauty contest –– 理解測驗
+{{ endblock }}
+
+{{ block content }}
+    <p>
+        以下是您與其他 5 名玩家在某一回合中選擇的數字。<br>
+        您選擇的數字：41<br>
+        其他 5 名玩家選擇的數字：5  22  30  63  91<br>
+        在這個回合當中，平均數為 42，<sup>2</sup>&frasl;<sub>3</sub> 倍的平均數等於 28。
+    </p>
+
+    <p>
+        (1) 在這六個數字當中，選擇哪一個數字的玩家是贏家？<br>
+            5  22  30  41   63   91
+    </p>
+
+    <p>
+        {{ if player.test1 == C.ans1 }}
+            恭喜您答對了。<br>
+        {{ endif }}
+        本題正確答案為30。<br>
+        因為最接近 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數的人才是贏家！
+    </p>
+    {{ next_button }}
+    <style>
+    .otree-timer {
+        display: none;
+    }
+    .debug-info {
+            display: none;
+    </style>
+
+{{ endblock }}
