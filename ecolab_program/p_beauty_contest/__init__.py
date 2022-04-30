@@ -34,8 +34,7 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    twothird_list = models.StringField(initial="")
-
+    pass
     
 
 class Group(BaseGroup):
@@ -89,19 +88,14 @@ def test3_error_message(player, value):
 def creating_session(subsession):  # 把組別劃分成實驗組與控制組、大組或小組
     if subsession.round_number == 1:
         subsession.group_randomly() # 隨機分組
-        twothird = [] 
-        half = []
         for player in subsession.get_players():
             if player.group.id_in_subsession == 1:
-                twothird.append(player) # 如果分到第一組則加入實驗組
-            else:
-                half.append(player) # 如果分到第二組則加入控制組
-        for player in subsession.get_players(): 
-            if player in twothird:
-                player.group.is_twothird = True # 實驗組
-            
+                player.group.is_twothird = True
     else:
         subsession.group_like_round(1) # 按第一回合分組
+        for player in subsession.get_players():
+            if player.group.id_in_subsession == 1:
+                player.group.is_twothird = True
 
 
 
