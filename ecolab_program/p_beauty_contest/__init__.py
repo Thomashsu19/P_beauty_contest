@@ -16,7 +16,6 @@ class C(BaseConstants):
 
     timeout_sec = 30  # 每一回合的決策時間
     timeout_sec_result = 60
-    timer_sec = 20  # 出現timer的剩餘時間
     alert_sec = 10  # 出現提醒字樣的剩餘時間
 
     p_twothird = 2/3 
@@ -29,6 +28,7 @@ class C(BaseConstants):
     noplaying_prize = 10
 
     ans1 = 30
+    ans1_2 = 22
     ans2 = 10
     ans3 = 60
 
@@ -69,17 +69,18 @@ class Player(BasePlayer):
 # FUNCTIONS
 
 def test1_error_message(player, value):
-    print("value is", value)
-    if value != C.ans1:
-        return '最接近 2/3 倍的平均數的人才是贏家！'
+    if player.group.is_twothird:
+        if value != C.ans1:
+            return '最接近 2/3 倍的平均數的人才是贏家！'
+    else:
+        if value != C.ans1_2:
+            return '最接近 1/2 倍的平均數的人才是贏家！'
 
 def test2_error_message(player, value):
-    print("value is", value)
     if value != C.ans2:
         return '每回合的贏家，可獲得報酬 120 元新台幣(超過一位玩家獲勝時，則均分報酬)，其餘玩家可獲得報酬 10 元新台幣。'
 
 def test3_error_message(player, value):
-    print("value is", value)
     if value != C.ans3:
         return '每回合的贏家，可獲得報酬 120 元新台幣(超過一位玩家獲勝時，則均分報酬)，其餘玩家可獲得報酬 10 元新台幣。'
 

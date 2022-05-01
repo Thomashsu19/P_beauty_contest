@@ -15,9 +15,6 @@
             color: red;
             display: none;
         }
-        .otree-timer {
-            display: none;
-        }
     </style>
 
 
@@ -27,7 +24,7 @@
     
 
     {{ formfield player.guess_num }}
-    {{ next_button }}
+    <button class="otree-btn-next btn btn-primary">下一頁</button>
 
     <div class='hidden-area'>
         {{ formfield player.decision_duration }}
@@ -48,10 +45,6 @@
                 var timeout_sec = {{ C.timeout_sec }}
                 var duration_integer = Math.ceil(duration)
 
-                // 倒數到指定秒數
-                if ((timeout_sec - duration_integer) === {{ C.timer_sec }}) {
-                    $('.otree-timer').show();
-                }               
 
                 // 計算延遲幾秒後催促
                 if ((timeout_sec - duration_integer) === {{ C.alert_sec }}) {

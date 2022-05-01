@@ -12,7 +12,6 @@
         .debug-info {
             display: none;
         }
-        
         .hidden-area {
             display: none;
         }
@@ -43,11 +42,9 @@
     <p><!-- 給予p-mean以及mean -->
         {{ if group.p_mean_num != -100 }}
             {{ if group.is_twothird }}
-                本回合的平均數為{{ group.mean_num }}<br>
-                本回合<sup>2</sup>&frasl;<sub>3</sub> 倍的平均數{{ group.p_mean_num }}<br>
+                本回合的勝利數字為{{ group.p_mean_num }}<br>
             {{ else }}
-                本回合的平均數為{{ group.mean_num }}<br>
-                本回合<sup>1</sup>&frasl;<sub>2</sub> 倍的平均數{{ group.p_mean_num }}<br>
+                本回合的勝利數字為{{ group.p_mean_num }}<br>
             {{ endif }}
         {{ endif }}
        

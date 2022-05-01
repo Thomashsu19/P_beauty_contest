@@ -7,26 +7,37 @@
         歡迎，感謝您參與今日的實驗！
     </p>
     <p>
-        待會您將與另外 {{ num_player_1 }} 位玩家，玩「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」的遊戲。
+        待會您將與另外 <b>{{ num_player_1 }}</b> 位玩家，玩
+        {{ if group.is_twothird }}
+            「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」的遊戲。
+        {{ else }}
+            「 <sup>1</sup>&frasl;<sub>2</sub> 倍的平均數」的遊戲。
+        {{ endif }}
     </p>
+
     <p>
-        本遊戲共有 {{ C.NUM_ROUNDS }} 回合。</p>
+        本遊戲共有 <b>{{ C.NUM_ROUNDS }}</b> 回合。
+    </p>
     
     <p>
-        每一回合中，所有玩家皆需要從最小為 0，最大為 100 的區間裡，挑選一個整數。<br>
-        
-        待所有玩家輸入完畢後，系統將公布「所有玩家的平均數」、「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」(即所有玩家選擇整數的平均數的
-        <sup>2</sup>&frasl;<sub>3</sub> 倍。)、「獲勝玩家選擇的數字」。
-
-        
-        
+        每一回合中，所有玩家皆需要從 <b>{{ C.timeout_sec }}</b> 秒內，從最小為 0，最大為 100 的區間裡，挑選一個整數。<br>
+        挑選完畢後，系統將會計算所有已提交數字之平均數，並將<b>平均數乘以</b>
+        {{ if group.is_twothird }}
+            <b><sup>2</sup>&frasl;<sub>3</sub> 倍作為「 勝利數字 」</b>。<br>
+        {{ else }}
+            <b><sup>2</sup>&frasl;<sub>3</sub> 倍作為「 勝利數字 」</b>。<br>
+        {{ endif }}
+        若您挑選的整數，在所有玩家中<b>最接近「 勝利數字 」</b>，您就是該回合的贏家，將<b>獲得報酬 {{ C.winning_prize }} 元新台幣</b>。<br>
+        惟須注意，當最接近「 勝利數字 」的玩家有<b>兩位以上</b>時，該回合的所有贏家將<b>均分報酬 {{ C.winning_prize }} 元新台幣</b>。<br>
+        若您<b>不是贏家</b>或<b>未在時間內做出決策</b>，則<b>獲得報酬 {{ C.consolation_prize}} 元新台幣</b>。<br>
     </p>
 
     <p>
-        若您挑選的整數，在所有玩家中最接近「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」，您就是該回合的贏家，將可獲得報酬 {{ C.winning_prize }} 元新台幣。<br>
-        若不是，可獲得報酬 {{ C.consolation_prize}} 元新台幣。<br>
-        惟須注意，當最接近「 <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數」的玩家有兩位以上時，該回合的所有贏家將均分報酬 {{ C.winning_prize }} 元新台幣。<br>
-        {{ C.NUM_ROUNDS }} 回合結束後，將於結算頁面顯示您參與本次遊戲獲得的報酬總額（不含車馬費 100 元新台幣）。
+        若未於時限內提交數字，系統將會視之為空值，不計入當回合平均數之計算。<br>
+        在每回合的結果頁面，每位參與者都可以看到當回合的<b>勝利數字</b>及<b>當回合所獲得的報酬</b>。<br>
+        結果頁面將顯示 <b>{{ C.timeout_sec_result }} 秒</b>。<br>
+        請記住，每回合選擇之間都是獨立的。<br>
+        在遊戲結束後，系統會結算您在本場實驗中的總報酬。
     </p>
 
     <p>
@@ -34,19 +45,21 @@
         以下是您與其他 2 名玩家在某一回合中選擇的數字。<br>
         您選擇的數字：56<br>
         其他 2 名玩家選擇的數字：7  99<br>
-        在這個回合當中，平均數為 54，<sup>2</sup>&frasl;<sub>3</sub> 倍的平均數等於 36 。<br>
-        由於 56 最接近獲勝數字 36，您是本回合的贏家，可獲得報酬 {{ C.winning_prize }} 元新台幣。<br>
-        其他選擇 7 與 99 的玩家，可獲得報酬 {{ C.consolation_prize }} 元新台幣。<br>
+        {{ if group.is_twothird }}
+            在這個回合當中，平均數為 54，勝利數字為 36 。<br>
+            由於 56 最接近勝利數字 36，您是本回合的贏家，可獲得報酬 {{ C.winning_prize }} 元新台幣。<br>
+            其他選擇 7 與 99 的玩家，可獲得報酬 {{ C.consolation_prize }} 元新台幣。<br>
+        {{ else }}
+            在這個回合當中，平均數為 54，勝利數字為 27 。<br>
+            由於 7 最接近勝利數字 27，您是本回合的贏家，可獲得報酬 {{ C.winning_prize }} 元新台幣。<br>
+            其他選擇 56 與 99 的玩家，可獲得報酬 {{ C.consolation_prize }} 元新台幣。<br>
+        {{ endif }}
     </p>
-
     <p>
-        每一回合的決策時間是 {{ C.timeout_sec }} 秒。<br>
-        倒數 {{ C.timer_sec }} 秒時，畫面會顯示倒數計時器。<br>
-        倒數 {{ C.alert_sec }} 秒時，畫面會出現「請您儘速作答」字樣提醒您作答。<br>
-        若您未在限制時間內做出決策，該回合僅能獲得報酬 {{ C.noplaying_prize }} 元新台幣。<br>
+        <b>若已了解決策實驗之說明，請按「 下一頁 」完成理解測驗</b>
     </p>
 
-    {{ next_button }}
+    <button class="otree-btn-next btn btn-primary">下一頁</button>
 
     <style>
         .debug-info {
