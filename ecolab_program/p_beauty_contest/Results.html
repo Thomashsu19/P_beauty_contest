@@ -1,5 +1,5 @@
 {{ block title }}
-    p-beauty contest –– 結果
+    結果頁面（第 {{ player.round_number }} 回合）
 {{ endblock }}
 
 {{ block content }}
@@ -30,7 +30,7 @@
     </p>
 
     <div class="otree-timer alert alert-warning" id="timer">
-        時間還剩下:
+        頁面停留時間為:
             <span style="font-weight: bold">
                 <span class="otree-timer__time-left"></span>
             </span>
@@ -68,7 +68,9 @@
         您在本回合的報酬為 <span class="highlight"> {{ player.payoff }} </span>。
     </p>
 
-    {{ next_button }}
+    <p>
+        <button class="otree-btn-next btn btn-primary">下一頁</button>
+    </p>
 
     <script>
         var start_time = Date.now() // 回傳自 1970/01/01 00:00:00 UTC 起經過的毫秒數。

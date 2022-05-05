@@ -2,7 +2,7 @@ from pickle import NONE
 from tokenize import group
 from xml.dom.expatbuilder import ElementInfo
 from otree.api import *
-
+import random
 
 doc = """
     p_beauty_contest
@@ -11,7 +11,7 @@ doc = """
 
 class C(BaseConstants):
     NAME_IN_URL = 'p_beauty_contest'
-    PLAYERS_PER_GROUP = 2 # 實驗組與控制組的人數
+    PLAYERS_PER_GROUP = 1
     NUM_ROUNDS = 6
     SHOWUPFEE = 100
 
@@ -84,11 +84,29 @@ def test3_error_message(player, value):
     if value != C.ans3:
         return '每回合的贏家，可獲得報酬 120 元新台幣(超過一位玩家獲勝時，則均分報酬)，其餘玩家可獲得報酬 10 元新台幣。'
 
-
-
-def creating_session(subsession):  # 把組別劃分成實驗組與控制組、大組或小組
+def creating_session(subsession):  
     if subsession.round_number == 1:
-        subsession.group_randomly() # 隨機分組
+        player_matrix = []
+        for player in subsession.get_players():
+            player_matrix.append(player)
+        
+        random.shuffle(player_matrix)
+
+        twothird_matrix = []
+        half_matrix = []
+
+        i = 0
+        for player in player_matrix:
+            if i % 2 == 0:
+                twothird_matrix.append(player)
+                i += 1
+            else:
+                half_matrix.append(player)
+                i += 1
+        
+        matrix = [twothird_matrix, half_matrix]
+        subsession.set_group_matrix(matrix)
+
         for player in subsession.get_players():
             if player.group.id_in_subsession == 1:
                 player.group.is_twothird = True
@@ -97,8 +115,6 @@ def creating_session(subsession):  # 把組別劃分成實驗組與控制組、�
         for player in subsession.get_players():
             if player.group.id_in_subsession == 1:
                 player.group.is_twothird = True
-
-
 
 def set_payoffs(group):
     players_guess_dict = {}  # 玩家數字的dictionary{players: guess_num}
@@ -240,7 +256,7 @@ class Finish(Page):
     @staticmethod
     def vars_for_template(player: Player):  # built-in methods，將 total_payoff 的值傳到 html 頁面
         return {
-            "total_payoff": sum([p.payoff for p in player.in_all_rounds()])
+            "total_payoff": round(sum([p.payoff for p in player.in_all_rounds()]) + C.SHOWUPFEE)
 	    }
 
 page_sequence = [Instruction, Test1, Ans1, Test2, Ans2, DecisionPage, ResultsWaitPage, Results, Finish]

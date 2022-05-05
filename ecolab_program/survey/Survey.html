@@ -1,20 +1,27 @@
 {{ block title }}
-    p-beauty contest –– 問卷
+    問卷調查
 {{ endblock }}
 
 {{ block content }}
 
     <p>
-        以下的幾個問題，請在閱讀題目後據實回答。接下來收集到的資料均僅供研究分析使用，不會外流，亦不會影響您得到的報酬，請放心填答。
+        以下的幾個問題，請在閱讀題目後據實回答。<br>
+        接下來收集到的資料均僅供研究分析使用，不會外流，亦不會影響您得到的報酬，請放心填答。
     </p>
 
     {{ formfields }}
 
-    {{ next_button }}
+    <p>
+        <button class="otree-btn-next btn btn-primary">提交</button>
+    </p>
 
 
     <style>
         .debug-info {
             display: none;
+        }
+        .form-check:hover{
+            background-color: rgba(100, 190, 240, 0.3);
+        }
     </style>
 {{ endblock }}

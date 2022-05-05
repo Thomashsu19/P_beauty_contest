@@ -5,14 +5,22 @@
 {{ block content }}
 
     <p>
-        您的總報酬是： {{ total_payoff }} <br>
+        您的總報酬是： <span class="highlight"> {{ total_payoff }} 元新台幣 </span> <br>
         謝謝您參與本次遊戲！
-        {{ next_button }}
+    </p>
+
+    <p>
+        <button class="otree-btn-next btn btn-primary">下一頁</button>
     </p>
 
     <style>
+        .highlight {
+            color: red;
+            font-weight: bold;
+        }
         .debug-info {
             display: none;
+        }
     </style>
 {{ endblock }}
 

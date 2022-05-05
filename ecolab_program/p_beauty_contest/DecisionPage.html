@@ -1,5 +1,5 @@
 {{ block title }}
-    p-beauty contest –– 決策 Round: {{ player.round_number }}
+    決策頁面 ( 第 {{ player.round_number }} 回合 )
 {{ endblock }}
 
 {{ block content }}
@@ -24,7 +24,7 @@
     </style>
 
     <div class="otree-timer alert alert-warning" id="timer">
-        時間還剩下:
+        作答剩餘時間為:
             <span style="font-weight: bold">
                 <span class="otree-timer__time-left"></span>
             </span>
@@ -36,7 +36,7 @@
     
 
     {{ formfield player.guess_num }}
-    <button class="otree-btn-next btn btn-primary">下一頁</button>
+    <button class="otree-btn-next btn btn-primary">提交</button>
 
     <div class='hidden-area'>
         {{ formfield player.decision_duration }}

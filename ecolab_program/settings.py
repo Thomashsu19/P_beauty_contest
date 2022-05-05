@@ -6,7 +6,7 @@ SESSION_CONFIGS = [
         name='p_beauty_contest',
         display_name="p-beauty-contest",
         app_sequence=['p_beauty_contest', "survey"],
-        num_demo_participants=4,
+        num_demo_participants=11,
     ),
 ]
 
@@ -27,8 +27,8 @@ SESSION_FIELDS = []
 LANGUAGE_CODE = 'en'
 
 # e.g. EUR, GBP, CNY, JPY
-REAL_WORLD_CURRENCY_CODE = 'USD'
-USE_POINTS = True
+REAL_WORLD_CURRENCY_CODE = 'TWD'
+USE_POINTS = False
 
 ROOMS = [
     dict(
