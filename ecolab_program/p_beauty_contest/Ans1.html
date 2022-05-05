@@ -3,34 +3,27 @@
 {{ endblock }}
 
 {{ block content }}
-    {{ if group.is_twothird }}
-        <p>
+    
+    <div id = "instruction">
+        {{ if group.is_twothird }}
             以下是您與其他 5 名玩家在某一回合中選擇的數字。<br>
             您選擇的數字：41<br>
             其他 5 名玩家選擇的數字：5  22  30  63  91<br>
             在這個回合當中，平均數為 42，
-            <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數等於 28。
-        </p>
-
-        <p>
-            (1) 在這六個數字當中，選擇哪一個數字的玩家是贏家？<br>
-                5  22  30  41   63   91
-        </p>
-    {{ else }}
-        <p>
+            <sup>2</sup>&frasl;<sub>3</sub> 倍的平均數等於 28。<br>
+            <br> 
+        {{ else }}
             以下是您與其他 5 名玩家在某一回合中選擇的數字。<br>
             您選擇的數字：41<br>
             其他 5 名玩家選擇的數字：5  22  30  63  91<br>
             在這個回合當中，平均數為 42，
-            <sup>1</sup>&frasl;<sub>2</sub> 倍的平均數等於 21。
-        </p>
-
-        <p>
-            (1) 在這六個數字當中，選擇哪一個數字的玩家是贏家？<br>
+            <sup>1</sup>&frasl;<sub>2</sub> 倍的平均數等於 21。<br>
+            <br>
+        {{ endif }}
+        (1) 在這六個數字當中，選擇哪一個數字的玩家是贏家？<br>
                 5  22  30  41   63   91
-        </p>
-    {{ endif }}
-
+    </div>
+    <br>
     <p>
         {{ if group.is_twothird }}
             恭喜您答對了。<br>
@@ -47,9 +40,14 @@
     <button class="otree-btn-next btn btn-primary">下一頁</button>
     
     <style>
-    
-    .debug-info {
+        #instruction {
+        background-color: rgba(220, 220, 220, 0.3);
+        padding: 20px;
+        }
+        
+        .debug-info {
             display: none;
+        }
     </style>
 
 {{ endblock }}

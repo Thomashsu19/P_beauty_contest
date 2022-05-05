@@ -13,9 +13,11 @@ class C(BaseConstants):
     NAME_IN_URL = 'p_beauty_contest'
     PLAYERS_PER_GROUP = 2 # 實驗組與控制組的人數
     NUM_ROUNDS = 6
+    SHOWUPFEE = 100
 
-    timeout_sec = 30  # 每一回合的決策時間
-    timeout_sec_result = 60
+
+    timeout_sec = 2222  # 每一回合的決策時間
+    timeout_sec_result = 2222
     alert_sec = 10  # 出現提醒字樣的剩餘時間
 
     p_twothird = 2/3 
@@ -26,6 +28,7 @@ class C(BaseConstants):
     winning_prize = 120
     consolation_prize = 10
     noplaying_prize = 10
+
 
     ans1 = 30
     ans1_2 = 22
@@ -60,9 +63,6 @@ class Player(BasePlayer):
     test1 = models.IntegerField(label="請填入一個正整數:")
     test2 = models.IntegerField(label="請填入一個正整數:")
     test3 = models.IntegerField(label="請填入一個正整數:")
-
-   
-
 
 
 
@@ -228,7 +228,8 @@ class ResultsWaitPage(WaitPage): # built-in
 
 
 class Results(Page):
-    pass
+    timeout_seconds = C.timeout_sec_result  # built-in
+    
 
 class Finish(Page):
 
@@ -242,4 +243,4 @@ class Finish(Page):
             "total_payoff": sum([p.payoff for p in player.in_all_rounds()])
 	    }
 
-page_sequence = [Instruction, Test1, Ans1, Test2, Ans2, Test3, Ans3, DecisionPage, ResultsWaitPage, Results, Finish]
+page_sequence = [Instruction, Test1, Ans1, Test2, Ans2, DecisionPage, ResultsWaitPage, Results, Finish]
