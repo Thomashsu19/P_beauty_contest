@@ -5,8 +5,8 @@ SESSION_CONFIGS = [
     dict(
         name='p_beauty_contest',
         display_name="p-beauty-contest",
-        app_sequence=['p_beauty_contest', "survey"],
-        num_demo_participants=11,
+        app_sequence=["intro", 'p_beauty_contest', "survey"],
+        num_demo_participants=3,
     ),
 ]
 
@@ -19,7 +19,7 @@ SESSION_CONFIG_DEFAULTS = dict(
     real_world_currency_per_point=1.00, participation_fee=0.00, doc=""
 )
 
-PARTICIPANT_FIELDS = []
+PARTICIPANT_FIELDS = ["wait_page_arrival"]
 SESSION_FIELDS = []
 
 # ISO-639 code

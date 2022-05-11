@@ -5,12 +5,6 @@
 {{ block content }}
     
     <style>
-        .otree-timer{
-            display: none;
-        }
-        #timer{
-            display: block;
-        }
         .highlight {
             color: red;
             font-weight: bold;
@@ -29,12 +23,7 @@
         Round: {{ player.round_number }}
     </p>
 
-    <div class="otree-timer alert alert-warning" id="timer">
-        頁面停留時間為:
-            <span style="font-weight: bold">
-                <span class="otree-timer__time-left"></span>
-            </span>
-    </div>
+    
 
     <p>
         {{ if player.is_no_decision }}
@@ -45,6 +34,8 @@
     </p>
 
     <p>
+        本回合的平均數字為：{{ group.mean_num }}<br>
+        本回合的勝利數字為：{{ group.p_mean_num }}<br>
         {{ if group.p_mean_num >= 0}}
             {{ group.winner_number }}
         {{ else }}
