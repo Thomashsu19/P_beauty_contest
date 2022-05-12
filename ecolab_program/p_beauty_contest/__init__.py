@@ -13,7 +13,7 @@ doc = """
 
 class C(BaseConstants):
     NAME_IN_URL = 'p_beauty_contest'
-    PLAYERS_PER_GROUP = 3
+    PLAYERS_PER_GROUP = 6
     NUM_ROUNDS = 6
     SHOWUPFEE = 100
 
@@ -28,8 +28,8 @@ class C(BaseConstants):
     max_number = 100
 
     winning_prize = 100
-    consolation_prize = 10
-    noplaying_prize = 10
+    consolation_prize = 0
+    noplaying_prize = 0
 
 
     ans1 = 30
@@ -39,8 +39,7 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    pass
-    
+    n_wait_player = models.IntegerField(initial=0)
 
 class Group(BaseGroup):
     is_twothird = models.BooleanField(initial=False)  #2/3
@@ -88,40 +87,42 @@ def test3_error_message(player, value):
         return '每回合的贏家，可獲得報酬 120 元新台幣(超過一位玩家獲勝時，則均分報酬)，其餘玩家可獲得報酬 10 元新台幣。'
 
 
-def creating_session(subsession):  
-    if subsession.round_number == 1:
-        player_matrix = []
-        for player in subsession.get_players():
-            player_matrix.append(player)
+# def creating_session(subsession):  
+#     if subsession.round_number == 1:
+#         player_matrix = []
+#         for player in subsession.get_players():
+#             player_matrix.append(player)
         
-        random.shuffle(player_matrix)
+#         random.shuffle(player_matrix)
 
-        twothird_matrix = []
-        half_matrix = []
+#         twothird_matrix = []
+#         half_matrix = []
 
-        i = 0
-        for player in player_matrix:
-            if i % 2 == 0:
-                twothird_matrix.append(player)
-                i += 1
-            else:
-                half_matrix.append(player)
-                i += 1
+#         i = 0
+#         for player in player_matrix:
+#             if i % 2 == 0:
+#                 twothird_matrix.append(player)
+#                 i += 1
+#             else:
+#                 half_matrix.append(player)
+#                 i += 1
         
-        matrix = [twothird_matrix, half_matrix]
-        subsession.set_group_matrix(matrix)
+#         matrix = [twothird_matrix, half_matrix]
+#         subsession.set_group_matrix(matrix)
 
-        for player in subsession.get_players():
-            if player.group.id_in_subsession == 1:
-                player.group.is_twothird = True
+#         for player in subsession.get_players():
+#             if player.group.id_in_subsession == 1:
+#                 player.group.is_twothird = True
         
-    else:
-        subsession.group_like_round(1) # 按第一回合分組
-        for player in subsession.get_players():
-            if player.group.id_in_subsession == 1:
-                player.group.is_twothird = True
+#     else:
+#         subsession.group_like_round(1) # 按第一回合分組
+#         for player in subsession.get_players():
+#             if player.group.id_in_subsession == 1:
+#                 player.group.is_twothird = True
             
 def set_payoffs(group):
+    if group.id_in_subsession == 2:
+        group.is_twothird = True
     players_guess_dict = {}  # 玩家數字的dictionary{players: guess_num}
     total = 0 # 玩家的總和
     playing_player = 0 # 有效玩家數量
@@ -186,7 +187,28 @@ def count_player_num(group):
 
 def waiting_too_long(player):
     participant = player.participant
-    return time.time() - participant.wait_page_arrival > 60
+    return time.time() - participant.wait_page_arrival > 100
+
+def group_by_arrival_time_method(subsession, waiting_players):
+    print(waiting_players)
+    if waiting_too_long(waiting_players[0]):
+        wait_player_matrix = []
+        for waiting_player in waiting_players:
+            wait_player_matrix.append(waiting_player)
+        random.shuffle(wait_player_matrix)
+        if subsession.n_wait_player == 0:
+            subsession.n_wait_player = len(waiting_players)
+        n = len(waiting_players)
+        if subsession.n_wait_player == n:
+            if n % 2 == 0:
+                n /= 2
+            else:
+                n += 1
+                n /= 2
+            return wait_player_matrix[:int(n)]
+        else:
+            return waiting_players
+
 
 
 # PAGES
@@ -197,7 +219,7 @@ class IntroWaitPage(WaitPage):
     def is_displayed(player):  
         return player.round_number == 1  
     after_all_players_arrive = count_player_num
-    group_by_arrival_time = False
+    group_by_arrival_time = True
     title_text = "等待頁面"
     body_text = "請稍待。您至多需要等待五分鐘的時間。"
 

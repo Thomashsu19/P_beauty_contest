@@ -12,10 +12,10 @@
         每一回合中，每個玩家都要從最小為 0，最大為 100 的區間裡，輸入一個整數。<br>
         所有玩家都送出輸入的整數後，電腦將計算所有玩家輸入的「平均數」。<br>
         電腦會將這個「平均數」， 
-        {{ if group.is_twothird }}
+        {{ if group.id_in_subsession == 2 }}
             <b>乘以<sup>2</sup>&frasl;<sub>3</sub> 倍作為「 勝利數字 」</b>。<br>
         {{ else }}
-            <b>乘以<sup>2</sup>&frasl;<sub>3</sub> 倍作為「 勝利數字 」</b>。<br>
+            <b>乘以<sup>1</sup>&frasl;<sub>2</sub> 倍作為「 勝利數字 」</b>。<br>
         {{ endif }}
     <br>
         若您挑選的整數，在所有{{ group.player_num }}位玩家中<b>最接近「 勝利數字 」</b>，您就是該回合的贏家。<br>
