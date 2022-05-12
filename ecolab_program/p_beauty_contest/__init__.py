@@ -13,7 +13,7 @@ doc = """
 
 class C(BaseConstants):
     NAME_IN_URL = 'p_beauty_contest'
-    PLAYERS_PER_GROUP = 6
+    PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 6
     SHOWUPFEE = 100
 
@@ -39,7 +39,7 @@ class C(BaseConstants):
 
 
 class Subsession(BaseSubsession):
-    n_wait_player = models.IntegerField(initial=0)
+    first = models.BooleanField(initial=True)
 
 class Group(BaseGroup):
     is_twothird = models.BooleanField(initial=False)  #2/3
@@ -187,27 +187,27 @@ def count_player_num(group):
 
 def waiting_too_long(player):
     participant = player.participant
-    return time.time() - participant.wait_page_arrival > 100
+    return time.time() - participant.wait_page_arrival > 30
 
 def group_by_arrival_time_method(subsession, waiting_players):
     print(waiting_players)
-    if waiting_too_long(waiting_players[0]):
-        wait_player_matrix = []
-        for waiting_player in waiting_players:
-            wait_player_matrix.append(waiting_player)
-        random.shuffle(wait_player_matrix)
-        if subsession.n_wait_player == 0:
-            subsession.n_wait_player = len(waiting_players)
-        n = len(waiting_players)
-        if subsession.n_wait_player == n:
-            if n % 2 == 0:
-                n /= 2
+    for player in waiting_players:
+        if waiting_too_long(player):
+            wait_player_matrix = []
+            for waiting_player in waiting_players:
+                wait_player_matrix.append(waiting_player)
+            random.shuffle(wait_player_matrix)
+            n = len(waiting_players)
+            if subsession.first == True:
+                if n % 2 == 0:
+                    n /= 2
+                else:
+                    n += 1
+                    n /= 2
+                subsession.first = False
+                return wait_player_matrix[:int(n)]
             else:
-                n += 1
-                n /= 2
-            return wait_player_matrix[:int(n)]
-        else:
-            return waiting_players
+                return waiting_players
 
 
 
