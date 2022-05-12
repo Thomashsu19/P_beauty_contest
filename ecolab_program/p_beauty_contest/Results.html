@@ -68,12 +68,12 @@
                 $('#id_decision_duration').val(duration.toFixed(1)) 
                 // JavaScript toFixed() Method: Convert a number into a string, keeping only N decimals
 
-                var timeout_sec = {{ C.timeout_sec }}
+                var timeout_sec = {{ C.timeout_seconds }}
                 var duration_integer = Math.ceil(duration)
 
 
                 // 計算延遲幾秒後催促
-                if ((timeout_sec - duration_integer) === {{ C.alert_sec }}) {
+                if ((timeout_seconds - duration_integer) === {{ C.alert_seconds }}) {
                     $('.time-is-up-area').show();
                 }
             },

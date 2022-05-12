@@ -18,9 +18,9 @@ class C(BaseConstants):
     SHOWUPFEE = 100
 
 
-    timeout_sec = 60  # 每一回合的決策時間
+    timeout_seconds = 60  # 每一回合的決策時間
     timeout_sec_result = 60
-    alert_sec = 10  # 出現提醒字樣的剩餘時間
+    alert_seconds = 10  # 出現提醒字樣的剩餘時間
 
     p_twothird = 2/3 
     p_half = 1/2
@@ -274,12 +274,7 @@ class Ans3(Page):
 class DecisionPage(Page):
     form_model = 'player'
     form_fields = ['guess_num', 'decision_duration']
-    timeout_seconds = C.timeout_sec  # built-in
-
-    @staticmethod
-    def before_next_page(player, timeout_happened):  # built-in methods
-        if timeout_happened:
-            player.is_no_decision = True  # 若回合時間到，將 player 設定為沒有做決策
+    
 
 class ResultsWaitPage(WaitPage): # built-in
     title_text = "等待頁面"

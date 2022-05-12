@@ -5,12 +5,18 @@
 {{ block content }}
 
     <style>
-        .otree-timer{
-            display: none;
+        .time-alert{
+        display: none;
+        color: #664d03;
+        background-color: #fff3cd;
+        border-color: #ffecb5;
+        position: relative;
+        padding: 1rem 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: .25rem;
         }
-        #timer{
-            display: block;
-        }
+
         .debug-info {
             display: none;
         }
@@ -23,15 +29,9 @@
         }
     </style>
 
-    <div class="otree-timer alert alert-warning" id="timer">
-        作答剩餘時間為:
-            <span style="font-weight: bold">
-                <span class="otree-timer__time-left"></span>
-            </span>
-    </div>
-
-    <div class="time-is-up-area">
-        「請儘速作答！」
+    
+    <div class="time-alert" >
+        時間就快要到了！！！！！！！！！！！！！
     </div>
     
 
@@ -41,30 +41,28 @@
     <div class='hidden-area'>
         {{ formfield player.decision_duration }}
     </div>
+    
 
-    <script>
-        var start_time = Date.now() // 回傳自 1970/01/01 00:00:00 UTC 起經過的毫秒數。
-
+    <script>    
+        var start_time = Date.now()
+    
         setInterval(
-            function() {
-                // 當下時間減掉起算時間（start_time），即為經過時長
-                var duration = (Date.now() - start_time) / 1000 // 因原數字為毫秒，需除以 1000 取得秒數。
-
-                // 每秒不斷更新 decision_duration
-                $('#id_decision_duration').val(duration.toFixed(1)) 
-                // JavaScript toFixed() Method: Convert a number into a string, keeping only N decimals
-
-                var timeout_sec = {{ C.timeout_sec }}
+            function () {
+                var duration = (Date.now() - start_time) / 1000
                 var duration_integer = Math.ceil(duration)
-
-
-                // 計算延遲幾秒後催促
-                if ((timeout_sec - duration_integer) === {{ C.alert_sec }}) {
-                    $('.time-is-up-area').show();
+    
+                $('#id_decision_duration').val(duration.toFixed(1))
+    
+                if (({{ C.timeout_seconds }} - duration) < {{C.alert_seconds}}) {
+                    $('.time-alert').show();
                 }
             },
-            0.1 * 1000 // 每 0.1秒呼叫一次function，所以如需更精確或更粗略，可調整成 0.01 * 1000 或 1 * 1000。（同時注意toFixed()）
-            )
+            0.1*1000
+        )
+
+
+        
     </script>
 
+        
 {{ endblock }}
