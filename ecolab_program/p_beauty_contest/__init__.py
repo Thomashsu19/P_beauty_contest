@@ -13,7 +13,7 @@ doc = """
 
 class C(BaseConstants):
     NAME_IN_URL = 'p_beauty_contest'
-    PLAYERS_PER_GROUP = 4
+    PLAYERS_PER_GROUP = 3
     NUM_ROUNDS = 6
     SHOWUPFEE = 100
 
@@ -188,7 +188,7 @@ def count_player_num(group):
 
 def waiting_too_long(player):
     participant = player.participant
-    return time.time() - participant.wait_page_arrival > 30
+    return time.time() - participant.wait_page_arrival > 300
 
 def group_by_arrival_time_method(subsession, waiting_players):
     print(waiting_players)
@@ -208,9 +208,6 @@ def group_by_arrival_time_method(subsession, waiting_players):
                 return wait_player_matrix[:int(n)]
     elif subsession.welldone == False:
         return waiting_players
-    
-
-
 
     for player in waiting_players:
         if waiting_too_long(player):
