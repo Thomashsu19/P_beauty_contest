@@ -13,7 +13,7 @@ doc = """
 
 class C(BaseConstants):
     NAME_IN_URL = 'p_beauty_contest'
-    PLAYERS_PER_GROUP = 5
+    PLAYERS_PER_GROUP = 4
     NUM_ROUNDS = 6
     SHOWUPFEE = 100
 

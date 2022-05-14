@@ -6,7 +6,7 @@ SESSION_CONFIGS = [
         name='p_beauty_contest',
         display_name="p-beauty-contest",
         app_sequence=["intro", 'p_beauty_contest', "survey"],
-        num_demo_participants=5,
+        num_demo_participants=4,
     ),
 ]
 
