@@ -13,7 +13,7 @@ doc = """
 
 class C(BaseConstants):
     NAME_IN_URL = 'p_beauty_contest'
-    PLAYERS_PER_GROUP = 3
+    PLAYERS_PER_GROUP = 5
     NUM_ROUNDS = 6
     SHOWUPFEE = 100
 
@@ -40,6 +40,7 @@ class C(BaseConstants):
 
 class Subsession(BaseSubsession):
     first = models.BooleanField(initial=True)
+    welldone = models.BooleanField(initial=True)
 
 class Group(BaseGroup):
     is_twothird = models.BooleanField(initial=False)  #2/3
@@ -191,6 +192,26 @@ def waiting_too_long(player):
 
 def group_by_arrival_time_method(subsession, waiting_players):
     print(waiting_players)
+    if len(waiting_players) == subsession.get_players():
+            wait_player_matrix = []
+            for waiting_player in waiting_players:
+                wait_player_matrix.append(waiting_player)
+            random.shuffle(wait_player_matrix)
+            n = len(waiting_players)
+            if subsession.welldone == True:
+                if n % 2 == 0:
+                    n /= 2
+                else:
+                    n += 1
+                    n /= 2
+                subsession.welldone = False
+                return wait_player_matrix[:int(n)]
+    elif subsession.welldone == False:
+        return waiting_players
+    
+
+
+
     for player in waiting_players:
         if waiting_too_long(player):
             wait_player_matrix = []
