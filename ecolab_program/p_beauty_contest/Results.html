@@ -5,6 +5,17 @@
 {{ block content }}
     
     <style>
+        .time-alert{
+        display: none;
+        color: #664d03;
+        background-color: #fff3cd;
+        border-color: #ffecb5;
+        position: relative;
+        padding: 1rem 1rem;
+        margin-bottom: 1rem;
+        border: 1px solid transparent;
+        border-radius: .25rem;
+        }
         .highlight {
             color: red;
             font-weight: bold;
@@ -20,13 +31,10 @@
 
     <p>
         {{ if player.is_no_decision }}
-            您未在時限內作答！
+            您未在時限內作答！<br>
         {{ else }}
-            您的數字為 {{ player.guess_num }}。
+            您的數字為：{{ player.guess_num }}<br>
         {{ endif }}
-    </p>
-
-    <p>
         本回合的平均數字為：{{ group.mean_num }}<br>
         本回合的勝利數字為：{{ group.p_mean_num }}<br>
         {{ if group.p_mean_num >= 0}}
@@ -36,25 +44,38 @@
         {{ endif }}
     </p>
 
+    <div class="time-alert" >
+        請點選下一頁
+    </div>
+
     
-
-    {{ if player.is_winner }}
-        <p class="highlight">
-            恭喜您是贏家！
-        </p>
-    {{ else }}
-        <p>
-            很抱歉，您未能獲勝。
-        </p>
-    {{ endif }}
-
-    <p>
-        您在本回合的報酬為 <span class="highlight"> {{ player.payoff }} </span>。
-    </p>
 
     <p>
         <button class="otree-btn-next btn btn-primary">下一頁</button>
     </p>
+
+
+
+    <script>    
+        var start_time = Date.now()
+    
+        setInterval(
+            function () {
+                var duration = (Date.now() - start_time) / 1000
+                var duration_integer = Math.ceil(duration)
+    
+                $('#id_decision_duration').val(duration.toFixed(1))
+    
+                if (({{ C.timeout_seconds }} - duration) < {{C.alert_seconds}}) {
+                    $('.time-alert').show();
+                }
+            },
+            0.1*1000
+        )
+
+
+        
+    </script>
 
     
 

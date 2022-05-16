@@ -17,6 +17,13 @@
         border-radius: .25rem;
         }
 
+        .information{
+            background-color: #D9D9D9;
+            padding: 1rem 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+        }
+
         .debug-info {
             display: none;
         }
@@ -34,6 +41,18 @@
         時間就快要到了！！！！！！！！！！！！！
     </div>
     
+    <div class="information">
+        每個玩家都要從最小為 0，最大為 100 的區間裡，輸入一個整數。<br>
+        所有玩家都送出輸入的整數後，電腦將計算所有玩家輸入的「平均數」。<br>
+        電腦會將這個「平均數」， 
+        {{ if group.id_in_subsession == 2 }}
+            <b>乘以<sup>2</sup>&frasl;<sub>3</sub> 倍作為「 勝利數字 」</b>。<br>
+        {{ else }}
+            <b>乘以<sup>1</sup>&frasl;<sub>2</sub> 倍作為「 勝利數字 」</b>。<br>
+        {{ endif }}
+        若您挑選的整數，在所有玩家中<b>最接近「 勝利數字 」</b>，您就是該回合的贏家。<br>
+    </div>
+
 
     {{ formfield player.guess_num }}
     <button class="otree-btn-next btn btn-primary">提交</button>

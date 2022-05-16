@@ -22,7 +22,7 @@ class Player(BasePlayer):
     age = models.IntegerField(label="您的年齡（請填入正整數）？")
     is_eco_or_man_stu = models.BooleanField(label="您是否現在/曾經就讀經濟系或管理學院？",choices=[[1,"是"],[0,"否"]])
     has_studied_eco_class = models.BooleanField(label="您是否修過經濟學相關課程（如：經濟學原理、個體經濟學、總體經濟學等等）？",choices=[[1,"是"],[0,"否"]])
-    know_pbeauty = models.BooleanField(label="您是否曾經聽過 P-beauty contest game?",choices=[[1,"是"],[0,"否"]])
+    know_pbeauty = models.BooleanField(label="您以前是否玩過跟今天的遊戲類似的遊戲呢？",choices=[[1,"是"],[0,"否"]])
     guess_goal = models.LongStringField(label="請您簡單描述您覺得本實驗之目的為何？")
 
 # FUNCTIONS
