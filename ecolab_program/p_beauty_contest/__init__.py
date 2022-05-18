@@ -188,7 +188,7 @@ def count_player_num(group):
 
 def waiting_too_long(player):
     participant = player.participant
-    return time.time() - participant.wait_page_arrival > 300
+    return time.time() - participant.wait_page_arrival > 30
 
 def group_by_arrival_time_method(subsession, waiting_players):
     for player in waiting_players:
@@ -241,8 +241,13 @@ class IntroWaitPage(WaitPage):
     body_text = "請稍待。您至多需要等待五分鐘的時間。"
 
 
-    
-
+class Toolong(Page):
+    @staticmethod
+    def is_displayed(player):
+        if player.group.id_in_subsession == 2 or player.group.id_in_subsession == 3:
+            return False
+        else:
+            return True
     
 
 class Instruction(Page):
@@ -315,4 +320,4 @@ class Finish(Page):
             "total_payoff": round(sum([p.payoff for p in player.in_all_rounds()]) + C.SHOWUPFEE)
 	    }
 
-page_sequence = [IntroWaitPage, Instruction, DecisionPage, ResultsWaitPage, Results, Finish]
+page_sequence = [IntroWaitPage, Toolong, Instruction, DecisionPage, ResultsWaitPage, Results, Finish]
