@@ -40,7 +40,8 @@ class C(BaseConstants):
 
 class Subsession(BaseSubsession):
     first = models.BooleanField(initial=True)
-    welldone = models.BooleanField(initial=True)
+    welldone = models.BooleanField(initial=False)
+
 
 class Group(BaseGroup):
     is_twothird = models.BooleanField(initial=False)  #2/3
@@ -188,9 +189,11 @@ def count_player_num(group):
 
 def waiting_too_long(player):
     participant = player.participant
-    return time.time() - participant.wait_page_arrival > 30
+    return time.time() - participant.wait_page_arrival > 120
 
 def group_by_arrival_time_method(subsession, waiting_players):
+    if subsession.welldone:
+        return waiting_players
     for player in waiting_players:
         if waiting_too_long(player):
             wait_player_matrix = []
@@ -205,6 +208,7 @@ def group_by_arrival_time_method(subsession, waiting_players):
                     n += 1
                     n /= 2
                 subsession.first = False
+                subsession.welldone = True
                 return wait_player_matrix[:int(n)]
             else:
                 return waiting_players
@@ -215,21 +219,18 @@ def group_by_arrival_time_method(subsession, waiting_players):
                 wait_player_matrix.append(waiting_player)
             random.shuffle(wait_player_matrix)
             n = len(waiting_players)
-            if subsession.welldone == True:
+            if subsession.welldone == False:
                 if n % 2 == 0:
                     n /= 2
                 else:
                     n += 1
                     n /= 2
-                subsession.welldone = False
+                subsession.welldone = True
                 return wait_player_matrix[:int(n)]
-        elif subsession.welldone == False:
+        elif subsession.welldone:
             return waiting_players
 
-
-
 # PAGES
-
 
 class IntroWaitPage(WaitPage):
     @staticmethod
