@@ -32,10 +32,7 @@ class C(BaseConstants):
     noplaying_prize = 0
 
 
-    ans1 = 30
-    ans1_2 = 22
-    ans2 = 10
-    ans3 = 60
+    
 
 
 class Subsession(BaseSubsession):
@@ -49,8 +46,6 @@ class Group(BaseGroup):
     winner_number = models.StringField(initial="本回合贏家的數字是：") # 大組贏家所選的數字
     p_mean_num = models.FloatField(initial=-100) # 平均*P值的結果
     mean_num = models.FloatField(initial=0) # 平均
-    player_twothird_num = models.IntegerField(initial=0)
-    player_half_num = models.IntegerField(initial=0)
     player_num = models.IntegerField(initial=0)
 
     
@@ -189,7 +184,7 @@ def count_player_num(group):
 
 def waiting_too_long(player):
     participant = player.participant
-    return time.time() - participant.wait_page_arrival > 120
+    return time.time() - participant.wait_page_arrival > 300
 
 def group_by_arrival_time_method(subsession, waiting_players):
     if subsession.welldone:
@@ -256,43 +251,6 @@ class Instruction(Page):
     def is_displayed(player):  # built-in methods
         return player.round_number == 1  # 只有 round 1 要有實驗說明
     
-
-class Test1(Page):
-    form_model = 'player'
-    form_fields = ['test1']
-    @staticmethod
-    def is_displayed(player):  # built-in methods
-        return player.round_number == 1  # 只有 round 1 要有實驗說明
-
-class Ans1(Page):
-    @staticmethod
-    def is_displayed(player):  # built-in methods
-        return player.round_number == 1  # 只有 round 1 要有實驗說明
-    
-
-class Test2(Page):
-    form_model = 'player'
-    form_fields = ['test2']
-    @staticmethod
-    def is_displayed(player):  # built-in methods
-        return player.round_number == 1  # 只有 round 1 要有實驗說明
-
-class Ans2(Page):
-    @staticmethod
-    def is_displayed(player):  # built-in methods
-        return player.round_number == 1  # 只有 round 1 要有實驗說明
-
-class Test3(Page):
-    form_model = 'player'
-    form_fields = ['test3']
-    @staticmethod
-    def is_displayed(player):  # built-in methods
-        return player.round_number == 1  # 只有 round 1 要有實驗說明
-
-class Ans3(Page):
-    @staticmethod
-    def is_displayed(player):  # built-in methods
-        return player.round_number == 1  # 只有 round 1 要有實驗說明
 
 class DecisionPage(Page):
     form_model = 'player'
